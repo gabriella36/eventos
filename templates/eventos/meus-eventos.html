@@ -1,0 +1,68 @@
+{% extends '../base.html' %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div style="float: right;">
+          <a class="btn btn-success" href="{% url 'eventos:add-evento' %}">Criar Novo Evento</a>
+          <a class="btn btn-success" href="{% url 'eventos:add-palestrante' %}">Adicionar Palestrante</a>
+      </div>
+      <h1>
+        Eventos
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Meus Eventos</h3>
+        </div>
+        {% if mensagem %}
+            <div class="alert alert-danger" role="alert">
+                {{ mensagem }}
+            </div>
+        {% endif %}
+        <div class="box-body">
+          {% if eventos|length != 0 %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">Data da Criação</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for evento in eventos %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ evento.nome }}</td>
+                  <td>{{ evento.created_at }}</td>
+                  <td><a href="{% url 'eventos:detalhes-evento' evento.pk %}" title="Visualizar"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                      <form method="post" action="{% url 'eventos:deletar-evento' evento.pk %}">
+                      {% csrf_token %}
+                      <input type="submit" title="Excluir" value="Excluir">
+                      </form>
+                      <a href="{% url 'eventos:editar-evento' evento.pk %}" title="Editar"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <div style="text-align: center;">
+                <h3>Nenhum evento encontrado</h3>
+            </div>
+          {% endif %}
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+{% endblock %}

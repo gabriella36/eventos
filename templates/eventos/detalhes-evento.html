@@ -1,0 +1,106 @@
+{% extends '../base.html' %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div style="float: right;">
+          <a class="btn btn-success" href="{% url 'eventos:add-minicurso' %}">Adicionar Minicurso</a>
+          <a class="btn btn-success" href="{% url 'eventos:add-palestra' %}">Adicionar Palestra</a>
+      </div>
+      <h1>
+        Eventos
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Detalhes do Evento ({{ object.nome }})</h3>
+        </div>
+        <div class="box-body">
+          <div style="text-align: center;">
+              <h3>Minicursos</h3>
+          </div>
+          {% if minicursos|length != 0 %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Palestrante</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">Data</th>
+                  <th scope="col">Horário</th>
+                  <th scope="col">Duração</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for minicurso in minicursos %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ minicurso.palestrante }}</td>
+                  <td>{{ minicurso.nome }}</td>
+                  <td>{{ minicurso.data }}</td>
+                  <td>{{ minicurso.horario }}</td>
+                  <td>{{ minicurso.duracao }}</td>
+                  <td><a href="{% url 'eventos:inscrever-minicurso' minicurso.pk %}" title="Inscrever-se"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                      <a href="{% url 'eventos:gerar-lista-m' minicurso.pk %}" target="_blank" title="Gerar Lista de Inscritos"><i class="fa fa-list" aria-hidden="true"></i></a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <div style="text-align: center;">
+                <h3>Nenhum minicurso cadastrado</h3>
+            </div>
+          {% endif %}
+
+          <div style="text-align: center;">
+              <h3>Palestras</h3>
+          </div>
+          {% if palestras|length != 0 %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Palestrante</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">Data</th>
+                  <th scope="col">Horário</th>
+                  <th scope="col">Duração</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for palestra in palestras %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ palestra.palestrante }}</td>
+                  <td>{{ palestra.nome }}</td>
+                  <td>{{ palestra.data }}</td>
+                  <td>{{ palestra.horario }}</td>
+                  <td>{{ palestra.duracao }}</td>
+                  <td><a href="{% url 'eventos:inscrever-palestra' palestra.pk %}" title="Inscrever-se"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                      <a href="{% url 'eventos:gerar-lista-p' palestra.pk %}" target="_blank" title="Gerar Lista de Inscritos"><i class="fa fa-list" aria-hidden="true"></i></a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <div style="text-align: center;">
+                <h3>Nenhuma palestra encontrada</h3>
+            </div>
+          {% endif %}
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+{% endblock %}
